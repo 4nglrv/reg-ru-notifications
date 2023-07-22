@@ -1,6 +1,8 @@
 # reg-ru-notifications
 Телеграм бот для уведомлений об облачном балансе в [reg.ru](https://www.reg.ru/)
 
+venv: `python:3.9-alpine3.13`
+
 ## Команды бота
 ```
 get_cloud_wallet - Текущий облачный счет
