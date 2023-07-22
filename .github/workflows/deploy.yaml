@@ -32,8 +32,8 @@ jobs:
         run: |
           ssh ${{ vars.USER_HOST }}@${{ vars.URL_HOST }} \
           "cd ${{ vars.PROJECT_DIR }} && \
-          echo ${{ vars.VARIABLES }} > .env && \
-          echo ${{ secrets.SECRET_VARIABLES }} >> .env"
+          echo '${{ vars.VARIABLES }}' > .env && \
+          echo '${{ secrets.SECRET_VARIABLES }}' >> .env"
 
       - name: Deploy project
         shell: bash
@@ -42,4 +42,4 @@ jobs:
           "cd ${{ vars.PROJECT_DIR }} && \
           ls -la && \
           git pull && \
-          docker-compose up --build --force-recreate"
+          docker-compose up -d --build --force-recreate"
