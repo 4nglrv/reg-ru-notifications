@@ -19,9 +19,9 @@ def schedule_request_handler():
 
 
 if __name__ == "__main__":
-    # Create the job in schedule.
+    # Create the job in schedule
     schedule.every().day.at(SCHEDULE_TIME, REGION).do(reg_notification_msg_action)
-    # schedule.every(60).seconds.do(start_actions_handler)
+    # schedule.every(5).seconds.do(start_actions_handler)
     # Thread
     threading.Thread(target=schedule_request_handler).start()
     # Bot polling

@@ -1,0 +1,45 @@
+name: Deploy project
+
+on:
+  workflow_dispatch:
+  push:
+    branches: main
+  pull_request:
+
+concurrency:
+  group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: SSH-agent setup
+        shell: bash
+        run: |
+          eval $(ssh-agent -s) && \
+          mkdir -p ~/.ssh && \
+          chmod 700 ~/.ssh && \
+          echo "${{ secrets.SSH_SECRET_KEY }}" | tr -d '\r' > ~/.ssh/id_rsa && \
+          chmod 600 ~/.ssh/id_rsa && \
+          ssh-keyscan ${{ vars.URL_HOST }} >> ~/.ssh/known_hosts && \
+          chmod 644 ~/.ssh/known_hosts
+
+      - name: Write .env params
+        shell: bash
+        run: |
+          ssh ${{ vars.USER_HOST }}@${{ vars.URL_HOST }} \
+          "cd ${{ vars.PROJECT_DIR }} && \
+          echo ${{ vars.VARIABLES }} < .env && \
+          echo ${{ secrets.SECRET_VARIABLES }} << .env"
+
+      - name: Deploy project
+        shell: bash
+        run: |
+          ssh ${{ vars.USER_HOST }}@${{ vars.URL_HOST }} \
+          "cd ${{ vars.PROJECT_DIR }} && \
+          ls -la && \
+          git pull && \
+          docker-compose up --build --force-recreate"

@@ -15,24 +15,27 @@ class State:
             for chat_id in self.chats:
                 f.write(f"{chat_id}\n")
 
-    def is_chat_exist(self, chat_id: str):
-        if chat_id in self.chats:
+    def is_chat_exist(self, _chat_id):
+        str_chat_id = str(_chat_id)
+        if str_chat_id in self.chats:
             return True
         else:
             return False
 
-    def add(self, chat_id: str):
-        if chat_id in self.chats:
+    def add(self, _chat_id):
+        str_chat_id = str(_chat_id)
+        if str_chat_id in self.chats:
             return
 
-        self.chats.append(chat_id)
+        self.chats.append(str_chat_id)
         self._write()
         print('Added new chat_id:\n', self.chats)
 
-    def rm(self, chat_id: str):
-        if not chat_id in self.chats:
+    def rm(self, _chat_id):
+        str_chat_id = str(_chat_id)
+        if not str_chat_id in self.chats:
             return
 
-        self.chats.remove(chat_id)
+        self.chats.remove(str_chat_id)
         self._write()
         print('Removed chat_id:\n', self.chats)
