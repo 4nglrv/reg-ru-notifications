@@ -24,5 +24,8 @@ def wallet_msg(data: object):
 
         return message
 
+    except Exception as e:
+        print(f'Error: Something went wrong with wallet_msg.\n{e}\n')
+
 
 
