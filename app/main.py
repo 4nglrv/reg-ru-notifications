@@ -21,4 +21,4 @@ if __name__ == "__main__":
     # Thread
     threading.Thread(target=schedule_request_handler).start()
     # Bot polling
-    bot.polling()
+    bot.polling(none_stop=True, timeout=100000)

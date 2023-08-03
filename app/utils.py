@@ -18,14 +18,11 @@ def wallet_msg(data: object):
 
         return message
 
-    except KeyError:
-        message = f'Не получается получить данные об облачном хранилище =('
-        print(f'Error: Something went wrong with wallet_msg func')
+    except Exception as e:
+        message = f'Не получается получить данные об облачном хранилище =(\n```{data}```\n'
+        print(f'Error: Something went wrong with wallet_msg.\n{e}\n')
 
         return message
-
-    except Exception as e:
-        print(f'Error: Something went wrong with wallet_msg.\n{e}\n')
 
 
 
