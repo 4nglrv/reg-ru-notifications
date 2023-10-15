@@ -22,13 +22,13 @@ jobs:
           chmod 700 ~/.ssh && \
           echo "${{ secrets.SSH_SECRET_KEY }}" | tr -d '\r' > ~/.ssh/id_rsa && \
           chmod 600 ~/.ssh/id_rsa && \
-          ssh-keyscan ${{ vars.URL_HOST }} >> ~/.ssh/known_hosts && \
+          ssh-keyscan ${{ secrets.URL_HOST }} >> ~/.ssh/known_hosts && \
           chmod 644 ~/.ssh/known_hosts
 
       - name: Write .env params
         shell: bash
         run: |
-          ssh ${{ vars.USER_HOST }}@${{ vars.URL_HOST }} \
+          ssh ${{ vars.USER_HOST }}@${{ secrets.URL_HOST }} \
           "cd ${{ vars.PROJECT_DIR }} && \
           echo '${{ vars.VARIABLES }}' > .env && \
           echo '${{ secrets.SECRET_VARIABLES }}' >> .env"
@@ -36,7 +36,7 @@ jobs:
       - name: Deploy project
         shell: bash
         run: |
-          ssh ${{ vars.USER_HOST }}@${{ vars.URL_HOST }} \
+          ssh ${{ vars.USER_HOST }}@${{ secrets.URL_HOST }} \
           "cd ${{ vars.PROJECT_DIR }} && \
           ls -la && \
           git pull && \
